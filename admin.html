@@ -126,29 +126,134 @@
     <input id="title" type="text" maxlength="140">
     <label for="body">Note</label>
     <textarea id="body" placeholder="Write it plain — blank lines become paragraphs. **bold**, *italic*, [links](https://…) work."></textarea>
-    <div style="margin-top:1.6rem"><a class="btn btn-solid" href="#" id="publish" style="cursor:pointer">Publish</a></div>
+    <div style="margin-top:1.6rem"><a class="btn btn-solid" href="#" id="publish" style="cursor:pointer">Publish</a> <a href="#" id="cancel-edit" style="display:none;margin-left:1rem;color:var(--ash);font-size:.9rem">Cancel</a></div>
     <div class="admin-status" id="status"></div>
   </div>
+
+  <div class="admin-card" style="margin-top:2rem">
+    <h2>Your notes</h2>
+    <p class="sub">Edit or delete published notes.</p>
+    <div id="post-list"><p class="sub">Loading…</p></div>
+  </div>
 </main>
+<style>
+.post-row{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.9rem 0;border-bottom:1px solid var(--line)}
+.post-row:last-child{border-bottom:none}
+.post-meta{min-width:0}
+.post-title{font-family:'Fraunces',serif;font-size:1.05rem;color:var(--paper);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.post-date{font-size:.8rem;color:var(--ash);letter-spacing:.14em;text-transform:uppercase}
+.post-actions{display:flex;gap:.6rem;flex-shrink:0}
+.post-actions a{font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;cursor:pointer}
+.post-edit{color:var(--ochre)}
+.post-del{color:#d98a7e}
+</style>
 <script>
 const WORKER_URL = "https://dcanthony-notes.dcanthonyart.workers.dev";
 const status = document.getElementById('status');
+let editingId = null;
+
+function htmlToText(html) {
+  let t = html;
+  t = t.replace(/<\/p>\s*<p>/g, '\n\n');
+  t = t.replace(/<br\s*\/?>/g, '\n');
+  t = t.replace(/<strong>(.*?)<\/strong>/g, '**$1**');
+  t = t.replace(/<em>(.*?)<\/em>/g, '*$1*');
+  t = t.replace(/<a href="(.*?)".*?>(.*?)<\/a>/g, '[$2]($1)');
+  t = t.replace(/<\/?p>/g, '');
+  const ta = document.createElement('textarea');
+  ta.innerHTML = t;
+  return ta.value.trim();
+}
+
+async function loadPosts() {
+  const list = document.getElementById('post-list');
+  try {
+    const r = await fetch('/notes.html', {cache: 'no-store'});
+    const html = await r.text();
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    const articles = doc.querySelectorAll('article.note');
+    if (!articles.length) { list.innerHTML = '<p class="sub">No notes yet.</p>'; return; }
+    list.innerHTML = '';
+    articles.forEach(a => {
+      const id = a.getAttribute('data-id') || '';
+      const date = (a.querySelector('.note-date') || {}).textContent || '';
+      const title = (a.querySelector('h3') || {}).textContent || 'Untitled';
+      const row = document.createElement('div');
+      row.className = 'post-row';
+      row.innerHTML = '<div class="post-meta"><div class="post-title"></div><div class="post-date"></div></div>' +
+        '<div class="post-actions"><a class="post-edit">Edit</a><a class="post-del">Delete</a></div>';
+      row.querySelector('.post-title').textContent = title;
+      row.querySelector('.post-date').textContent = date;
+      row.querySelector('.post-edit').addEventListener('click', () => startEdit(a, id));
+      row.querySelector('.post-del').addEventListener('click', () => deletePost(id, title));
+      list.appendChild(row);
+    });
+  } catch(err) { list.innerHTML = '<p class="sub">Could not load notes.</p>'; }
+}
+
+function startEdit(article, id) {
+  if (!id) { status.textContent = 'This note has no ID and cannot be edited — republish it first.'; status.className = 'admin-status err'; return; }
+  const h3 = article.querySelector('h3');
+  const clone = article.cloneNode(true);
+  clone.querySelector('.note-date')?.remove();
+  clone.querySelector('h3')?.remove();
+  document.getElementById('title').value = h3 ? htmlToText(h3.innerHTML) : '';
+  document.getElementById('body').value = htmlToText(clone.innerHTML);
+  editingId = id;
+  document.querySelector('.admin-card h2').textContent = 'Edit note';
+  document.getElementById('publish').textContent = 'Save changes';
+  document.getElementById('cancel-edit').style.display = 'inline';
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function cancelEdit() {
+  editingId = null;
+  document.getElementById('title').value = '';
+  document.getElementById('body').value = '';
+  document.querySelector('.admin-card h2').textContent = 'New note';
+  document.getElementById('publish').textContent = 'Publish';
+  document.getElementById('cancel-edit').style.display = 'none';
+  status.textContent = ''; status.className = 'admin-status';
+}
+document.getElementById('cancel-edit').addEventListener('click', e => { e.preventDefault(); cancelEdit(); });
+
+async function deletePost(id, title) {
+  if (!id) { status.textContent = 'This note has no ID and cannot be deleted.'; status.className = 'admin-status err'; return; }
+  const password = document.getElementById('pw').value;
+  if (!password) { status.textContent = 'Enter your password first.'; status.className = 'admin-status err'; return; }
+  if (!confirm('Delete "' + title + '"? This cannot be undone.')) return;
+  status.textContent = 'Deleting…'; status.className = 'admin-status';
+  try {
+    const r = await fetch(WORKER_URL, {method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({action:'delete', password, id})});
+    const d = await r.json();
+    if (d.ok) { status.textContent = 'Deleted — give Pages a minute to rebuild.'; status.className = 'admin-status ok'; loadPosts(); }
+    else { status.textContent = 'Failed: ' + (d.error || 'unknown error'); status.className = 'admin-status err'; }
+  } catch(err) { status.textContent = 'Network error — is the worker deployed?'; status.className = 'admin-status err'; }
+}
+
 document.getElementById('publish').addEventListener('click', async (e) => {
   e.preventDefault();
   const password = document.getElementById('pw').value;
   const title = document.getElementById('title').value.trim();
   const body = document.getElementById('body').value.trim();
   if (!password || !body) { status.textContent = 'Password and note text are required.'; status.className = 'admin-status err'; return; }
-  status.textContent = 'Publishing…'; status.className = 'admin-status';
+  status.textContent = editingId ? 'Saving…' : 'Publishing…'; status.className = 'admin-status';
   try {
+    const payload = {password, title: title || 'Untitled', body};
+    if (editingId) { payload.action = 'edit'; payload.id = editingId; }
     const r = await fetch(WORKER_URL, {method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({password, title: title || 'Untitled', body})});
+      body: JSON.stringify(payload)});
     const d = await r.json();
-    if (d.ok) { status.textContent = 'Live on dcanthony.art/notes.html — give Pages a minute to rebuild.'; status.className = 'admin-status ok';
-      document.getElementById('title').value=''; document.getElementById('body').value=''; }
+    if (d.ok) {
+      status.textContent = (editingId ? 'Saved' : 'Live') + ' on dcanthony.art/notes.html — give Pages a minute to rebuild.';
+      status.className = 'admin-status ok';
+      cancelEdit(); loadPosts();
+    }
     else { status.textContent = 'Failed: ' + (d.error || 'unknown error'); status.className = 'admin-status err'; }
   } catch(err) { status.textContent = 'Network error — is the worker deployed?'; status.className = 'admin-status err'; }
 });
+loadPosts();
 </script>
 </body>
 </html>
