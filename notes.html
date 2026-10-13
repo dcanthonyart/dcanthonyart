@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D.C. Anthony — Notes</title>
+<meta name="description" content="Notes from the studio — D.C. Anthony, oil painter.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;1,9..144,400;1,9..144,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#16130F; --panel:#1d1813; --paper:#ECE7DD; --paper-dim:#c4b9a6;
+    --ochre:#C9973F; --ochre-dim:#A67C2E; --ash:#7d7264; --line:rgba(201,151,63,.22);
+  }
+  *{box-sizing:border-box} html{scroll-behavior:smooth}
+  body{margin:0;background:var(--void);color:var(--paper);font-family:'EB Garamond',serif;-webkit-font-smoothing:antialiased}
+  ::selection{background:var(--ochre-dim);color:var(--paper)}
+  a{color:var(--ochre)}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 6vw}
+  /* announcement strip */
+  .strip{background:var(--ochre);color:#16130F;text-align:center;
+    font-size:.8rem;letter-spacing:.24em;text-transform:uppercase;padding:.75rem 1rem}
+  /* nav */
+  nav{position:sticky;top:0;z-index:40;display:flex;justify-content:space-between;align-items:center;
+    padding:1.1rem 6vw;background:rgba(22,19,15,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .brand{font-family:'Fraunces',serif;font-weight:600;letter-spacing:.14em;font-size:.95rem;color:var(--paper);text-decoration:none}
+  .brand em{font-style:normal;color:var(--ochre)}
+  .nav-links{display:flex;gap:2rem;align-items:center}
+  .nav-links a.nl,.nav-store{color:var(--paper-dim);text-decoration:none;font-size:.92rem;letter-spacing:.12em;text-transform:uppercase}
+  .nav-links a.nl:hover,.nav-store:hover{color:var(--paper)}
+  /* hero */
+  header.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden}
+  .hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .hero-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(22,19,15,.66) 0%,rgba(22,19,15,.14) 42%,rgba(22,19,15,.92) 100%)}
+  .hero-inner{position:relative;z-index:2;width:100%;max-width:1180px;margin:0 auto;padding:0 6vw 13vh}
+  .eyebrow{letter-spacing:.42em;text-transform:uppercase;font-size:.72rem;color:var(--ochre);margin-bottom:1.6rem}
+  h1{font-family:'Fraunces',serif;font-weight:300;font-size:clamp(3.4rem,9vw,7rem);margin:0 0 1.2rem;line-height:1.02}
+  h1 em{font-style:italic;font-weight:400}
+  .lede{font-size:1.35rem;font-style:italic;color:var(--paper-dim);max-width:34rem;line-height:1.6;margin:0 0 2.6rem}
+  .btn{display:inline-block;padding:.9rem 2.4rem;text-decoration:none;font-style:italic;font-size:1.02rem;letter-spacing:.04em;transition:all .3s}
+  .btn-solid{background:var(--ochre);color:#16130F;border:1px solid var(--ochre)}
+  .btn-solid:hover{background:transparent;color:var(--paper)}
+  /* sections */
+  section.block{padding:10vh 0}
+  .sec-head{display:flex;align-items:baseline;gap:1.4rem;margin-bottom:5.5rem;border-bottom:1px solid var(--line);padding-bottom:1.4rem}
+  .sec-head h2{font-family:'Fraunces',serif;font-weight:400;font-size:2.2rem;margin:0}
+  .sec-head span{letter-spacing:.32em;text-transform:uppercase;font-size:.72rem;color:var(--ash)}
+  /* work — single column catalogue */
+  .work{max-width:940px;margin:0 auto 11rem;opacity:0;transform:translateY(30px);transition:opacity 1s ease,transform 1s ease}
+  .work:last-child{margin-bottom:0}
+  .work.lit{opacity:1;transform:none}
+  .work img{width:100%;display:block;box-shadow:0 30px 80px rgba(0,0,0,.55);border:1px solid rgba(201,151,63,.14)}
+  .caption{margin-top:1.8rem}
+  .plate-no{letter-spacing:.4em;text-transform:uppercase;font-size:.72rem;color:var(--ochre);margin-bottom:.9rem}
+  .caption h3{font-family:'Fraunces',serif;font-weight:450;font-size:1.9rem;margin:0 0 .6rem;line-height:1.2}
+  .medium{color:var(--paper-dim);font-style:italic;margin:0;font-size:1.05rem}
+  .status{margin:1rem 0 0;font-size:.8rem;letter-spacing:.24em;text-transform:uppercase}
+  .status.onview{color:var(--ochre)}
+  .status.avail{color:var(--paper-dim);font-style:italic;text-transform:none;letter-spacing:.08em;font-size:.98rem}
+  .status.sold{color:var(--paper-dim);font-style:italic;text-transform:none;letter-spacing:.08em;font-size:.98rem}
+  /* about */
+  .about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:4.5rem;align-items:start}
+  .about-grid p{font-size:1.12rem;line-height:1.75;color:var(--paper-dim);margin:0 0 1.4rem}
+  .about-grid p strong{color:var(--paper);font-weight:500}
+  .exhib{margin-top:2.6rem;border-top:1px solid var(--line);padding-top:1.6rem}
+  .exhib h4{font-size:.78rem;letter-spacing:.32em;text-transform:uppercase;color:var(--ash);margin:0 0 1.1rem;font-weight:500}
+  .exhib ul{list-style:none;margin:0;padding:0}
+  .exhib li{font-size:1.02rem;color:var(--paper-dim);padding:.45rem 0;display:flex;gap:1.2rem}
+  .exhib li span{color:var(--ochre);font-style:italic;min-width:3.2rem}
+  .badge-card{background:var(--panel);border:1px solid var(--line);padding:2.4rem;text-align:center}
+  .badge-card img{max-width:230px;width:100%;margin-bottom:1.4rem}
+  .badge-card p{font-size:.95rem;letter-spacing:.06em;margin:0;color:var(--paper-dim)}
+  /* contact */
+  .contact-note{color:var(--paper-dim);font-size:1.15rem;max-width:38rem;line-height:1.7;margin:0 0 1.2rem}
+  .email-link{font-family:'Fraunces',serif;font-size:clamp(1.4rem,3.4vw,2rem);font-style:italic;color:var(--paper);text-decoration:none;
+    border-bottom:1px solid var(--ochre-dim);padding-bottom:.2rem;transition:border-color .3s}
+  .email-link:hover{border-color:var(--ochre)}
+  .store-note{margin-top:2.4rem}
+  footer{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;
+    padding:2.4rem 6vw;border-top:1px solid var(--line);color:var(--ash);font-size:.9rem;letter-spacing:.08em}
+  footer a{color:var(--ash);text-decoration:none}
+  footer a:hover{color:var(--paper)}
+  @media(max-width:860px){
+    .hero-inner .btn{display:none}
+    .about-grid{grid-template-columns:1fr}
+    .nav-links a.nl{display:none}
+    .work{margin-bottom:7rem}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .work{opacity:1;transform:none;transition:none}
+  }
+</style>
+  /* notes */
+  .notes-list{max-width:760px;margin:0 auto}
+  .note{margin:0 auto 5.5rem;padding-bottom:4rem;border-bottom:1px solid var(--line)}
+  .note:last-child{border-bottom:none}
+  .note-date{letter-spacing:.34em;text-transform:uppercase;font-size:.72rem;color:var(--ochre);margin-bottom:1rem}
+  .note h3{font-family:'Fraunces',serif;font-weight:450;font-size:1.9rem;margin:0 0 1.2rem;line-height:1.25}
+  .note p{font-size:1.12rem;line-height:1.78;color:var(--paper-dim);margin:0 0 1.2rem}
+  .note strong{color:var(--paper);font-weight:500}
+  .notes-empty{color:var(--ash);font-style:italic;font-size:1.1rem;text-align:center;padding:3rem 0}
+  /* admin */
+  .admin-card{max-width:640px;margin:12vh auto;background:var(--panel);border:1px solid var(--line);padding:2.6rem}
+  .admin-card h2{font-family:'Fraunces',serif;font-weight:400;margin:0 0 .6rem}
+  .admin-card p.sub{color:var(--ash);font-size:.95rem;margin:0 0 1.8rem}
+  .admin-card label{display:block;font-size:.75rem;letter-spacing:.28em;text-transform:uppercase;color:var(--ash);margin:1.4rem 0 .5rem}
+  .admin-card input,.admin-card textarea{width:100%;background:var(--void);border:1px solid var(--line);color:var(--paper);
+    font-family:'EB Garamond',serif;font-size:1.05rem;padding:.8rem 1rem;border-radius:2px}
+  .admin-card textarea{min-height:280px;line-height:1.6;resize:vertical}
+  .admin-card input:focus,.admin-card textarea:focus{outline:none;border-color:var(--ochre-dim)}
+  .admin-status{margin-top:1.2rem;font-style:italic;color:var(--paper-dim);min-height:1.6em}
+  .admin-status.err{color:#d98a7e}
+  .admin-status.ok{color:var(--ochre)}
+
+</head>
+<body>
+<nav>
+  <a class="brand" href="/#top">D.C. <em>ANTHONY</em></a>
+  <div class="nav-links">
+    <a class="nl" href="/#work">Work</a>
+    <a class="nl" href="/notes.html" style="color:var(--paper)">Notes</a>
+    <a class="nl" href="/#about">About</a>
+    <a class="nl" href="/#contact">Contact</a>
+    <a class="nav-store" href="https://dcanthonyart.bigcartel.com" target="_blank" rel="noopener">Store</a>
+  </div>
+</nav>
+<main class="wrap">
+<section class="block">
+  <div class="sec-head"><h2>Notes</h2><span>From the studio</span></div>
+  <div class="notes-list">
+<!-- POSTS -->
+  </div>
+</section>
+</main>
+<footer>
+  <span>D.C. Anthony</span>
+  <span><a href="https://www.instagram.com/dcanthonyart/" target="_blank" rel="noopener">Instagram</a> &nbsp;&middot;&nbsp; dcanthony.art</span>
+  <span>&copy; 2026</span>
+</footer>
+</body>
+</html>
