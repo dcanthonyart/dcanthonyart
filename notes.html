@@ -29,6 +29,17 @@
   .nav-links{display:flex;gap:2rem;align-items:center}
   .nav-links a.nl,.nav-store{color:var(--paper-dim);text-decoration:none;font-size:.92rem;letter-spacing:.12em;text-transform:uppercase}
   .nav-links a.nl:hover,.nav-store:hover{color:var(--paper)}
+  .nav-toggle{display:none;background:none;border:0;cursor:pointer;padding:.5rem}
+  .nav-toggle span{display:block;width:26px;height:2px;background:var(--paper);margin:6px 0;transition:transform .25s,opacity .25s}
+  .nav-menu{display:none;position:absolute;top:100%;left:0;right:0;background:rgba(22,19,15,.98);
+    border-bottom:1px solid var(--line);padding:.4rem 6vw 1.2rem;z-index:55}
+  .nav-menu a{display:block;color:var(--paper-dim);text-decoration:none;font-size:.95rem;letter-spacing:.14em;
+    text-transform:uppercase;padding:.9rem 0;border-bottom:1px solid rgba(201,151,63,.14)}
+  .nav-menu a:last-child{border-bottom:none}
+  body.nav-open .nav-menu{display:block}
+  body.nav-open .nav-toggle span:nth-child(1){transform:translateY(8px) rotate(45deg)}
+  body.nav-open .nav-toggle span:nth-child(2){opacity:0}
+  body.nav-open .nav-toggle span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
   /* hero */
   header.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden}
   .hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
@@ -84,7 +95,8 @@
   @media(max-width:860px){
     .hero-inner .btn{display:none}
     .about-grid{grid-template-columns:1fr}
-    .nav-links a.nl{display:none}
+    .nav-links{display:none}
+    .nav-toggle{display:block}
     .work{margin-bottom:7rem}
   }
   @media(prefers-reduced-motion:reduce){
@@ -124,24 +136,19 @@
     <a class="nl" href="/#contact">Contact</a>
     <a class="nav-store" href="https://dcanthonyart.bigcartel.com" target="_blank" rel="noopener">Store</a>
   </div>
+  <button class="nav-toggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  <div class="nav-menu" id="nav-menu">
+    <a href="/#work">Work</a>
+    <a href="/#about">About</a>
+    <a href="/notes.html">Notes</a>
+    <a href="/#contact">Contact</a>
+    <a href="https://dcanthonyart.bigcartel.com" target="_blank" rel="noopener">Store</a>
+  </div>
 </nav>
 <main class="wrap">
 <section class="block">
   <div class="sec-head"><h2>Notes</h2><span>From the studio</span></div>
   <div class="notes-list">
-<article class="note" data-id="note-m7year1">
-<div class="note-date">October 13, 2026</div>
-<h3>2026 in Review</h3>
-<p>Each day, try to be even 1% better than the day before.</p>
-<p>That’s something I heard a few years back. While it was more so geared towards health and fitness, I channeled it into pushing myself further into my art.</p>
-<p>As many know, I started using pastels as a way to relax my anxieties, along with medication and life changes. I have since switched to oil paints, and was able to stop my medications. While I still struggle with regular anxiety, I have found myself able to navigate a path without them.</p>
-<p>The through-line in my work: dark rooms, single light sources, quiet subjects. Chiaroscuro isn’t a style choice so much as the way I see things. I view my relationship with anxiety and art like a chiaroscuro painting. That through the seemingly endless darkness there is light, you just need to find it in the right place. Sometimes it’s right in between those two states.</p>
-<p>I showed 4 paintings this year: “Wishing…Well” for the Spring Art in the Woods, “Cayuga” in the Fall Art in the Woods, and “Too Late” as well as “Is There a Better Way to Start the Mourning?” in the 2026 Chester County Art Association (CCAA) Members Show.</p>
-<p>Around the same stretch I opened the online store (originals and signed prints) and rebuilt my website. I took my anxiety head-on and started pitching press and podcasts, applied to art-selling sites, and kept commissions coming. Along the way, I made new contacts with editors and podcasts.</p>
-<p>I have gained a new sense of confidence with the amazing support of my family and friends, and peers at the CCAA. I did everything I could to lay the groundwork for 2027.</p>
-<p>I have multiple paintings in the works, as well as a large format painting still in the planning and logistics phase. It will keep my style, but change subjects. I’m prepping myself for bigger shows, and considering applying to art shows in neighboring states to push myself even further. I’m working on a booth layout for festivals and events, all the while still working on bettering myself as a painter.</p>
-<p>2027 is going to be a good year. One percent at a time, and I’m excited to share it with everyone.</p>
-</article>
 <!-- POSTS -->
   </div>
 </section>
@@ -151,5 +158,22 @@
   <span><a href="https://www.instagram.com/dcanthonyart/" target="_blank" rel="noopener">Instagram</a> &nbsp;&middot;&nbsp; dcanthony.art</span>
   <span>&copy; 2026</span>
 </footer>
+<script>
+  (function(){
+    var toggle = document.querySelector('.nav-toggle');
+    var menu = document.getElementById('nav-menu');
+    if(!toggle || !menu) return;
+    function close(){ document.body.classList.remove('nav-open'); toggle.setAttribute('aria-expanded','false'); }
+    toggle.addEventListener('click', function(e){
+      e.stopPropagation();
+      var open = document.body.classList.toggle('nav-open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    menu.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', close); });
+    document.addEventListener('click', function(e){
+      if(!e.target.closest('#nav-menu') && !e.target.closest('.nav-toggle')) close();
+    });
+  })();
+</script>
 </body>
 </html>
