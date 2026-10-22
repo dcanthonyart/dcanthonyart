@@ -77,6 +77,18 @@
   .status.onview{color:var(--ochre)}
   .status.avail{color:var(--paper-dim);font-style:italic;text-transform:none;letter-spacing:.08em;font-size:.98rem}
   .status.sold{color:var(--paper-dim);font-style:italic;text-transform:none;letter-spacing:.08em;font-size:.98rem}
+
+
+.buy-actions{margin:1rem 0 0;display:flex;flex-wrap:wrap;gap:.8rem;align-items:center}
+
+.buy-btn{display:inline-block;padding:.72rem 1.5rem;border:1px solid var(--ochre);background:var(--ochre);color:#16130F;font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;text-decoration:none;font-weight:600;transition:background .3s,color .3s}
+
+.buy-btn:hover{background:transparent;color:var(--ochre)}
+
+.buy-btn.ghost{background:transparent;color:var(--ochre)}
+
+.buy-btn.ghost:hover{background:var(--ochre);color:#16130F}
+
   /* about */
   .about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:4.5rem;align-items:start}
   .about-grid p{font-size:1.12rem;line-height:1.75;color:var(--paper-dim);margin:0 0 1.4rem}
@@ -155,6 +167,7 @@
         <h3>Too Late</h3>
         <p class="medium">Oil on canvas · 16&times;20 in.</p>
         <p class="status onview">On view · CCAA Members Show, through Oct 28</p>
+        <div class="buy-actions"><a class="buy-btn" href="https://dcanthonyart.bigcartel.com/product/too-late-original-oil-painting" target="_blank" rel="noopener">Buy the Original &mdash; $500</a><a class="buy-btn ghost" href="https://dcanthonyart.bigcartel.com/product/copy-of-too-late-original-oil-painting" target="_blank" rel="noopener">Buy a Signed Print &mdash; $30</a></div>
       </div>
     </article>
 
@@ -165,6 +178,7 @@
         <h3>Cayuga</h3>
         <p class="medium">Oil on canvas · 16&times;20 in.</p>
         <p class="status avail">Available</p>
+        <div class="buy-actions"><a class="buy-btn" href="https://dcanthonyart.bigcartel.com/product/cayuga" target="_blank" rel="noopener">Buy This Painting &mdash; $315</a></div>
       </div>
     </article>
 
@@ -185,6 +199,7 @@
         <h3>Is There a Better Way to Start the Mourning?</h3>
         <p class="medium">Oil on canvas · 16&times;20 in.</p>
         <p class="status onview">On view · CCAA Members Show, through Oct 28</p>
+        <div class="buy-actions"><a class="buy-btn" href="https://dcanthonyart.bigcartel.com/product/is-there-a-better-way-to-start-the-mourning" target="_blank" rel="noopener">Buy This Painting &mdash; $500</a></div>
       </div>
     </article>
 
