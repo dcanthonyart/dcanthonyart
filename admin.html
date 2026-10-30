@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Publish a note</title>
-<meta name="description" content="Private publishing page.">
+<title>Admin — D.C. Anthony</title>
+<meta name="description" content="Private admin page.">
+<meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;1,9..144,400;1,9..144,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
@@ -113,13 +114,53 @@
   .admin-status{margin-top:1.2rem;font-style:italic;color:var(--paper-dim);min-height:1.6em}
   .admin-status.err{color:#d98a7e}
   .admin-status.ok{color:var(--ochre)}
+  /* admin layout */
+  .admin-top{position:sticky;top:0;z-index:40;background:rgba(22,19,15,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .admin-top-in{max-width:1180px;margin:0 auto;padding:1rem 6vw;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+  .admin-nav{display:flex;gap:1.8rem}
+  .admin-nav a{color:var(--paper-dim);text-decoration:none;font-size:.85rem;letter-spacing:.14em;text-transform:uppercase}
+  .admin-nav a:hover{color:var(--paper)}
+  .admin-wrap{padding-top:3.2rem;padding-bottom:5rem}
+  .admin-head{margin:0 auto 2.6rem}
+  .admin-title{font-family:'Fraunces',serif;font-weight:300;font-size:clamp(2.4rem,5vw,3.4rem);margin:.4rem 0 .8rem;line-height:1.05}
+  .admin-sub{color:var(--ash);font-size:1.05rem;font-style:italic;margin:0}
+  .admin-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:2rem;align-items:start}
+  .admin-grid .admin-card{margin:0;max-width:none;width:100%}
+  .admin-card{border-radius:6px;box-shadow:0 18px 50px rgba(0,0,0,.35)}
+  .admin-card.wide{margin:2rem auto 0}
+  .sec-tag{display:block;font-size:.68rem;letter-spacing:.32em;text-transform:uppercase;color:var(--ochre);margin-bottom:.7rem}
+  .admin-foot{margin:2.6rem auto 0;color:var(--ash);font-size:.9rem;letter-spacing:.06em}
+  @media(max-width:900px){
+    .admin-grid{grid-template-columns:1fr}
+    .admin-nav a{display:none}
+    .admin-nav a:first-child{display:inline}
+  }
 </style>
 
 </head>
 <body>
 
-<main class="wrap">
+<header class="admin-top">
+  <div class="admin-top-in">
+    <a class="brand" href="/">D.C. <em>ANTHONY</em></a>
+    <nav class="admin-nav">
+      <a href="/">View site</a>
+      <a href="/notes.html">Notes</a>
+      <a href="https://dcanthonyart.bigcartel.com" target="_blank" rel="noopener">Store</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap admin-wrap">
+  <div class="admin-head">
+    <p class="eyebrow" style="margin-bottom:0">Site admin</p>
+    <h1 class="admin-title">Admin</h1>
+    <p class="admin-sub">Publish notes, manage posts, and watch Attention Economy. This page is private — it isn't linked from the public site.</p>
+  </div>
+
+  <div class="admin-grid">
   <div class="admin-card">
+    <span class="sec-tag">Notes</span>
     <h2>New note</h2>
     <p class="sub">Writes directly to dcanthony.art/notes.html</p>
     <label for="pw">Password</label>
@@ -132,17 +173,22 @@
     <div class="admin-status" id="status"></div>
   </div>
 
-  <div class="admin-card" style="margin-top:2rem">
+  <div class="admin-card">
+    <span class="sec-tag">Notes</span>
     <h2>Your notes</h2>
     <p class="sub">Edit or delete published notes.</p>
     <div id="post-list"><p class="sub">Loading…</p></div>
   </div>
+  </div>
 
-  <div class="admin-card wide" style="margin-top:2rem">
-    <h2>Attention Economy — Creator Terminal</h2>
+  <div class="admin-card wide">
+    <span class="sec-tag">Attention Economy</span>
+    <h2>Creator Terminal</h2>
     <p class="sub">Private and read-only — watching it here never adds a scan. Creator access only, separate from the gallery staff token. <a href="https://attention-economy.dcanthonyart.workers.dev/creator" target="_blank" rel="noopener">Open full screen</a></p>
     <iframe class="creator-frame" src="https://attention-economy.dcanthonyart.workers.dev/creator" title="Attention Economy — Creator Terminal" loading="lazy" referrerpolicy="no-referrer"></iframe>
   </div>
+
+  <p class="admin-foot">Private admin for dcanthony.art — publishing writes to notes.html; the Creator Terminal is read-only and never adds a scan.</p>
 </main>
 <style>
 .post-row{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.9rem 0;border-bottom:1px solid var(--line)}
